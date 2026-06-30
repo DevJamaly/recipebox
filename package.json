@@ -1,0 +1,27 @@
+{
+  "name": "recipebox",
+  "version": "1.0.0",
+  "description": "Find, view and bookmark recipes with adjustable serving sizes.",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://DevJamaly@github.com/DevJamaly/recipebox.git"
+  },
+  "author": "DevJamaly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevJamaly/recipebox/issues"
+  },
+  "homepage": "https://github.com/DevJamaly/recipebox#readme",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.16.4",
+    "parcel": "^2.16.4"
+  },
+  "dependencies": {
+    "core-js": "^3.49.0",
+    "regenerator-runtime": "^0.14.1"
+  }
+}
