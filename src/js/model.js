@@ -7,7 +7,7 @@ export const state = {
 
 export const loadRecipe = async function (id) {
   try {
-    const data = await getJson(`${API_URL}/${id}`);
+    const data = await getJson(`${API_URL + 'YOLO'}/${id /* + 'zzzz' */}`);
     const { recipe } = data.data;
     state.recipe = {
       id: recipe.id,
@@ -21,8 +21,20 @@ export const loadRecipe = async function (id) {
     };
     console.log(state.recipe);
   } catch (error) {
-    //Temp error handler
-    console.error(`LOAD RECIPE ERROR: ${error}`);
-    // throw new Error(error);
+    let errorMsg = '';
+    switch (Number.parseInt(error.message)) {
+      case 400:
+        errorMsg = `Could not find recipe! Invalid ID (${error.message})`;
+        break;
+
+      case 404:
+        errorMsg = `Could not find server! Malformed URL (${error.message})`;
+        break;
+
+      default:
+        errorMsg = `Ooops something went wrong! (${error.message})`;
+        break;
+    }
+    throw new Error(errorMsg);
   }
 };

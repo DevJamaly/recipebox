@@ -191,7 +191,8 @@
 
 .message,
 .error {
-  max-width: 40rem;
+  // max-width: 40rem;
+  max-width: 75%;
   margin: 0 auto;
   padding: 5rem 4rem;
 
@@ -201,6 +202,7 @@
     height: 3rem;
     width: 3rem;
     fill: $color-primary;
+    // fill: $color-error;
     transform: translateY(-0.3rem);
   }
 
@@ -209,5 +211,11 @@
     font-size: 1.8rem;
     line-height: 1.5;
     font-weight: 600;
+  }
+}
+
+.error {
+  svg {
+    fill: $color-error;
   }
 }
