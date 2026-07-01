@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "core-js": "^3.49.0",
+    "fraction.js": "^5.3.4",
     "regenerator-runtime": "^0.14.1"
   }
 }
