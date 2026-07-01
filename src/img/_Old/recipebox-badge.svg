@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 10 160 160"><defs><linearGradient id="GRAD" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#56E0C8"/><stop offset="0.55" stop-color="#1BBEB4"/><stop offset="1" stop-color="#0E8FB8"/></linearGradient></defs><circle cx="90" cy="90" r="80" fill="url(#GRAD)"/>
+<g transform="translate(0,1.5)">
+<g transform="rotate(-18 62 104)">
+<rect x="52" y="50" width="5" height="17" rx="2.5" fill="#fff"/>
+<rect x="59.5" y="50" width="5" height="17" rx="2.5" fill="#fff"/>
+<rect x="67" y="50" width="5" height="17" rx="2.5" fill="#fff"/>
+<rect x="52" y="63" width="20" height="9" rx="4" fill="#fff"/>
+<rect x="58.5" y="70" width="7" height="34" rx="3.5" fill="#fff"/>
+</g>
+<g transform="rotate(18 118 104)">
+<ellipse cx="118" cy="60" rx="10.5" ry="14" fill="#fff"/>
+<rect x="114.5" y="70" width="7" height="34" rx="3.5" fill="#fff"/>
+</g>
+<rect x="64" y="54" width="52" height="58" rx="6" fill="#fff" stroke="#0E6E78" stroke-width="3"/>
+<line x1="75" y1="70" x2="105" y2="70" stroke="#117A82" stroke-width="3" stroke-linecap="round"/>
+<line x1="75" y1="82" x2="105" y2="82" stroke="#117A82" stroke-width="3" stroke-linecap="round"/>
+<line x1="75" y1="94" x2="96" y2="94" stroke="#117A82" stroke-width="3" stroke-linecap="round"/>
+<rect x="44" y="100" width="92" height="34" rx="8" fill="#fff" stroke="#0E6E78" stroke-width="3.5"/>
+<rect x="64" y="110" width="52" height="16" rx="4" fill="none" stroke="#0E6E78" stroke-width="2.5"/>
+</g></svg>

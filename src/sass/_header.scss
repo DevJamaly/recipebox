@@ -1,13 +1,13 @@
 .header {
   grid-area: head;
-  background-color: $color-grey-light-1;
+  background-color: $color-grey-light-2;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   &__logo {
     margin-left: 4rem;
-    height: 4.6rem;
+    height: 6rem;
     display: block;
   }
 }
