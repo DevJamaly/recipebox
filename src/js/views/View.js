@@ -1,0 +1,80 @@
+import icons from 'url:../../img/icons.svg';
+
+export default class View {
+  #parentElement;
+  #data;
+  #errorMsg = `No recipes found for your query. Please try again!`;
+  #message = `Start by searching for a recipe or an ingredient. Have fun!`;
+
+  constructor(
+    parentElement,
+    errorMsg = this.#errorMsg,
+    sucessMsg = this.#message,
+  ) {
+    this.#parentElement = parentElement;
+    this.#errorMsg = errorMsg;
+    this.#message = sucessMsg;
+  }
+
+  render(data) {
+    if (!data || (Array.isArray(data) && data.length === 0))
+      return this.renderError();
+    this.#data = data;
+    const markup = this._generateMarkup();
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  #clear() {
+    this.#parentElement.innerHTML = '';
+  }
+
+  renderSpinner() {
+    const markup = `
+        <div class="spinner">
+                <svg>
+                  <use href="${icons}#icon-loader"></use>
+                </svg>
+              </div>
+        `;
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  renderError(errorMsg = this.#errorMsg) {
+    errorMsg ||= this.#errorMsg;
+    const markup = `
+        <div class="error">
+              <div>
+                <svg>
+                  <use href="${icons}.svg#icon-alert-triangle"></use>
+                </svg>
+              </div>
+              <p>${errorMsg}</p>
+            </div>
+        `;
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  renderMsg(message = this.#message) {
+    const markup = `
+        <div class="message">
+              <div>
+                <svg>
+                  <use href="src/img/icons.svg#icon-smile"></use>
+                </svg>
+              </div>
+              <p>${message}</p>
+            </div>
+        `;
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  #generate;
+
+  get data() {
+    return this.#data;
+  }
+}

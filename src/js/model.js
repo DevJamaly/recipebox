@@ -11,7 +11,9 @@ export const state = {
 
 export const loadRecipe = async function (id) {
   try {
-    const data = await getJson(`${API_URL + 'YOLO'}/${id /* + 'zzzz' */}`);
+    const data = await getJson(
+      `${API_URL /* + 'YOLO' */}/${id /* + 'zzzz' */}`,
+    );
     const { recipe } = data.data;
     state.recipe = {
       id: recipe.id,
@@ -36,7 +38,7 @@ export const loadRecipe = async function (id) {
         break;
 
       default:
-        errorMsg = `Ooops something went wrong! (${error.message})`;
+        errorMsg = undefined;
         break;
     }
     throw new Error(errorMsg);
@@ -73,7 +75,7 @@ export const loadSearchResults = async function (query) {
         break;
 
       default:
-        errorMsg = `Ooops something went wrong! (${error.message})`;
+        errorMsg = undefined;
         break;
     }
     throw new Error(errorMsg);
