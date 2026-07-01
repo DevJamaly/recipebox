@@ -9,6 +9,10 @@ import recipeView from './views/recipeView.js';
 
 ///////////////////////////////////////
 
+const init = function () {
+  recipeView.addRenderHandler(controlRecipes);
+};
+
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
@@ -30,15 +34,4 @@ const controlRecipes = async function () {
   }
 };
 
-// showRecipe();
-['hashchange', 'load'].forEach(eventType =>
-  window.addEventListener(eventType, controlRecipes),
-);
-
-// window.addEventListener('hashchange', function (e) {
-//   showRecipe();
-// });
-
-// window.addEventListener('load', function (e) {
-//   showRecipe();
-// });
+init();
