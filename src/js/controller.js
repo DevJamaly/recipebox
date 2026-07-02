@@ -5,8 +5,9 @@ import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
 
-if (module.hot) module.hot.accept();
+// if (module.hot) module.hot.accept();
 
 // NEW API URL (instead of the one shown in the video)
 // https://forkify-api.jonas.io
@@ -16,6 +17,7 @@ if (module.hot) module.hot.accept();
 const init = function () {
   recipeView.addRenderHandler(controlRecipes);
   searchView.addSearchHandler(controlSearchResults);
+  paginationView.addPagesClickHandler(controlPagination);
 };
 
 const controlRecipes = async function () {
@@ -50,9 +52,20 @@ const controlSearchResults = async function () {
 
     // 3) Render results
     resultsView.render(model.getSearchResultsPage(1));
+
+    // 4) Render the initial pagination buttons
+    paginationView.render(model.state.search);
   } catch (error) {
     console.error(error.message);
   }
+};
+
+const controlPagination = function (gotoPageNum) {
+  // 3) Render results
+  resultsView.render(model.getSearchResultsPage(gotoPageNum));
+
+  // 4) Render the initial pagination buttons
+  paginationView.render(model.state.search);
 };
 
 init();

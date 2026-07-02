@@ -42,6 +42,7 @@ export default class View {
   }
 
   renderError(errorMsg = this.#errorMsg) {
+    console.error(errorMsg);
     errorMsg ||= this.#errorMsg;
     const markup = `
         <div class="error">
@@ -76,5 +77,9 @@ export default class View {
 
   get data() {
     return this.#data;
+  }
+
+  get parentElement() {
+    return this.#parentElement;
   }
 }

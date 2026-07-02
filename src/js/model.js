@@ -8,6 +8,7 @@ export const state = {
     query: '',
     results: [],
     page: 1,
+    resultsPerPage: RESULTS_PER_PAGE,
   },
 };
 
@@ -65,6 +66,7 @@ export const loadSearchResults = async function (query) {
         ingredients: recipe.ingredients,
       };
     });
+    // state.search.results = state.search.results.slice(1, 8);
   } catch (error) {
     let errorMsg = '';
     switch (Number.parseInt(error.message)) {
@@ -85,8 +87,8 @@ export const loadSearchResults = async function (query) {
 };
 
 export const getSearchResultsPage = function (pageNum = state.search.page) {
-  start.search.page = pageNum;
-  const start = (pageNum - 1) * RESULTS_PER_PAGE;
-  const end = pageNum * RESULTS_PER_PAGE;
+  state.search.page = pageNum;
+  const start = (pageNum - 1) * state.search.resultsPerPage;
+  const end = pageNum * state.search.resultsPerPage;
   return state.search.results.slice(start, end);
 };
