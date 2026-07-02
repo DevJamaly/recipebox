@@ -24,12 +24,13 @@ const init = function () {
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
-    console.log(id);
-
     if (!id) return;
 
     //0) Spinner
     recipeView.renderSpinner();
+
+    //0.5) Update results view to mark selected search result
+    resultsView.update(model.getSearchResultsPage());
 
     // 1) Loading Recipe
     await model.loadRecipe(id);
@@ -52,7 +53,7 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
 
     // 3) Render results
-    resultsView.render(model.getSearchResultsPage(1));
+    resultsView.render(model.getSearchResultsPage());
 
     // 4) Render the initial pagination buttons
     paginationView.render(model.state.search);

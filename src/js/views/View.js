@@ -26,8 +26,7 @@ export default class View {
   }
 
   update(data) {
-    if (!data || (Array.isArray(data) && data.length === 0))
-      return this.renderError();
+    if (data == null) return this.renderError();
     this.#data = data;
     const newMarkup = this._generateMarkup();
 
