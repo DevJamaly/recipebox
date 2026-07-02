@@ -25,6 +25,32 @@ export default class View {
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
+  update(data) {
+    if (!data || (Array.isArray(data) && data.length === 0))
+      return this.renderError();
+    this.#data = data;
+    const newMarkup = this._generateMarkup();
+
+    ///virtualDOM
+    const newDOM = document.createRange().createContextualFragment(newMarkup);
+    const newElements = Array.from(newDOM.querySelectorAll('*'));
+    const currElements = Array.from(this.parentElement.querySelectorAll('*'));
+
+    newElements.forEach((newEl, i) => {
+      const currEl = currElements[i];
+      if (!newEl.isEqualNode(currEl)) {
+        // sync text content only on elements whose first child is a text node
+        if (newEl.firstChild?.nodeValue.trim() !== '') {
+          currEl.textContent = newEl.textContent;
+        }
+        // sync all attributes (this is what fixes the hidden class, data-goto, etc.)
+        Array.from(newEl.attributes).forEach(attr =>
+          currEl.setAttribute(attr.name, attr.value),
+        );
+      }
+    });
+  }
+
   #clear() {
     this.#parentElement.innerHTML = '';
   }

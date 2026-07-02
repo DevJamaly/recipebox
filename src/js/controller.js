@@ -68,7 +68,7 @@ const controlPagination = function (gotoPageNum) {
     resultsView.render(model.getSearchResultsPage(gotoPageNum));
 
     // 4) Render the initial pagination buttons
-    paginationView.render(model.state.search);
+    paginationView.update(model.state.search);
   } catch (error) {
     paginationView.renderError(error.message);
     console.error(error.message);
@@ -81,7 +81,7 @@ const controlServings = function (newServings) {
     model.updateServings(newServings);
 
     //Update the recipe view
-    recipeView.render(model.state.recipe);
+    recipeView.update(model.state.recipe);
   } catch (error) {
     recipeView.renderError(error.message);
   }
