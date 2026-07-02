@@ -92,3 +92,13 @@ export const getSearchResultsPage = function (pageNum = state.search.page) {
   const end = pageNum * state.search.resultsPerPage;
   return state.search.results.slice(start, end);
 };
+
+export const updateServings = function (newServings) {
+  if (!state?.recipe?.ingredients) throw new Error('No recipe loaded in state');
+  console.log(state.recipe.ingredients);
+  state.recipe.ingredients.forEach(ingredient => {
+    ingredient.quantity =
+      (ingredient.quantity / state.recipe.servings) * newServings;
+  });
+  state.recipe.servings = newServings;
+};
