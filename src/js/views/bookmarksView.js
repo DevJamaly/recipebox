@@ -11,8 +11,11 @@ class BookmarksView extends View {
     );
   }
 
+  addRenderHandler(handler) {
+    window.addEventListener('load', handler);
+  }
+
   _generateMarkup() {
-    console.log(this.data);
     return this.data
       .map(bookmark => PreviewView.render(bookmark, false))
       .join('');

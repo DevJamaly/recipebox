@@ -30,7 +30,6 @@ export const loadRecipe = async function (id) {
       ingredients: recipe.ingredients,
       bookmarked: state.bookmarks.some(bookmark => bookmark.id === id),
     };
-    console.log(state.recipe);
   } catch (error) {
     let errorMsg = '';
     switch (Number.parseInt(error.message)) {
@@ -114,6 +113,8 @@ export const addBookmark = function (recipe) {
 
   //Mark current recipe as bookmark
   if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+
+  saveBookmarks();
 };
 
 export const deleteBookmark = function (id) {
@@ -122,4 +123,30 @@ export const deleteBookmark = function (id) {
   state.bookmarks.splice(index, 1);
   //Mark current recipe as NOT bookmark
   if (id === state.recipe.id) state.recipe.bookmarked = false;
+
+  saveBookmarks();
 };
+
+const saveBookmarks = function () {
+  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+};
+
+const loadBookmarks = function () {
+  console.log(`LOADING BOOKMARKS`);
+  const storageData = localStorage.getItem('bookmarks');
+  console.log(storageData);
+
+  if (storageData) state.bookmarks = JSON.parse(storageData);
+  console.log(state.bookmarks);
+};
+
+const clearBookmarks = function () {
+  localStorage.clear('bookmarks');
+};
+
+const init = function () {
+  loadBookmarks();
+};
+
+console.log('MODEL INIT RUNNING');
+init();

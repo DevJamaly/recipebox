@@ -16,6 +16,7 @@ import paginationView from './views/paginationView.js';
 ///////////////////////////////////////
 
 const init = function () {
+  bookmarksView.addRenderHandler(controlBookmarks);
   recipeView.addRenderHandler(controlRecipes);
   searchView.addSearchHandler(controlSearchResults);
   paginationView.addPagesClickHandler(controlPagination);
@@ -42,6 +43,7 @@ const controlRecipes = async function () {
     recipeView.render(model.state.recipe);
   } catch (error) {
     recipeView.renderError(error.message);
+    console.error(error);
   }
 };
 
@@ -105,6 +107,10 @@ const controlAddBookmark = function () {
   } catch (error) {
     recipeView.renderError(error.message);
   }
+};
+
+const controlBookmarks = function () {
+  bookmarksView.render(model.state.bookmarks);
 };
 
 init();

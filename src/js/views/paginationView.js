@@ -20,13 +20,10 @@ class PaginationView extends View {
     const numPages = Math.ceil(
       this.data.results.length / this.data.resultsPerPage,
     );
-    console.log(`NumPages: ${numPages}`);
 
     //When to show previous button ?
     const prev = currPage !== 1 && numPages > 1;
     const next = numPages > 1 && currPage !== numPages;
-
-    console.log(`Prev: ${prev} | Next: ${next}`);
 
     const prevBtn = `
      <button data-goto="${currPage - 1}" class="btn--inline pagination__btn--prev ${prev ? '' : 'hidden'}">
