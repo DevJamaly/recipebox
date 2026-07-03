@@ -8,23 +8,27 @@ class AddRecipeView extends View {
   #btnClose = document.querySelector('.btn--close-modal');
 
   constructor() {
-    super(document.querySelector('.upload'));
+    super(
+      document.querySelector('.upload'),
+      `There was an error uploading your recipe !`,
+      `Recipe was sucessfully uploaded :)`,
+    );
     this.addShowWindowHandler();
     this.addHideWindowHandler();
   }
 
-  #toggleWindow() {
+  toggleWindow() {
     this.#overlay.classList.toggle('hidden');
     this.#window.classList.toggle('hidden');
   }
 
   addShowWindowHandler() {
-    this.#btnOpen.addEventListener('click', this.#toggleWindow.bind(this));
+    this.#btnOpen.addEventListener('click', this.toggleWindow.bind(this));
   }
 
   addHideWindowHandler() {
-    this.#btnClose.addEventListener('click', this.#toggleWindow.bind(this));
-    this.#overlay.addEventListener('click', this.#toggleWindow.bind(this));
+    this.#btnClose.addEventListener('click', this.toggleWindow.bind(this));
+    this.#overlay.addEventListener('click', this.toggleWindow.bind(this));
   }
 
   addUploadHandler(handler) {
