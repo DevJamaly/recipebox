@@ -16,11 +16,14 @@ export default class View {
     this.#message = sucessMsg;
   }
 
-  render(data) {
+  render(data, render = true) {
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
     this.#data = data;
     const markup = this._generateMarkup();
+
+    if (!render) return markup;
+
     this.#clear();
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   }
@@ -106,5 +109,13 @@ export default class View {
 
   get parentElement() {
     return this.#parentElement;
+  }
+
+  get errorMsg() {
+    return this.#errorMsg;
+  }
+
+  get sucessMsg() {
+    return this.#message;
   }
 }
