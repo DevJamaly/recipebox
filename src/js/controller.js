@@ -19,6 +19,7 @@ const init = function () {
   searchView.addSearchHandler(controlSearchResults);
   paginationView.addPagesClickHandler(controlPagination);
   recipeView.addUpdateServingsHandler(controlServings);
+  recipeView.addUpdateBookmarkHandler(controlAddBookmark);
 };
 
 const controlRecipes = async function () {
@@ -82,6 +83,16 @@ const controlServings = function (newServings) {
     model.updateServings(newServings);
 
     //Update the recipe view
+    recipeView.update(model.state.recipe);
+  } catch (error) {
+    recipeView.renderError(error.message);
+  }
+};
+
+const controlAddBookmark = function () {
+  try {
+    if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
+    else model.deleteBookmark(model.state.recipe.id);
     recipeView.update(model.state.recipe);
   } catch (error) {
     recipeView.renderError(error.message);
