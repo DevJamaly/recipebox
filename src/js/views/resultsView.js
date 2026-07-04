@@ -12,7 +12,7 @@ class ResultsView extends View {
   }
 
   _generateMarkup() {
-    return this.data.map(result => PreviewView.render(result, false)).join('');
+    return this.data.map(result => PreviewView.getMarkup(result)).join('');
   }
 }
 

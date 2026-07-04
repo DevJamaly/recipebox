@@ -17,15 +17,18 @@ export default class View {
     this.#message = sucessMsg;
   }
 
-  render(data, render = true) {
+  getMarkup(data) {
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
 
     this.#data = data;
-    const markup = this._generateMarkup();
-    if (!render) return markup;
+    return this._generateMarkup();
+  }
 
+  render(data) {
+    const markup = this.getMarkup(data);
     const newDOM = document.createRange().createContextualFragment(markup);
+
     this.#patch(newDOM, this.parentElement);
   }
 
