@@ -1,3 +1,4 @@
+import { html } from '../helpers';
 import icons from 'url:../../img/icons.svg';
 
 export default class View {
@@ -58,13 +59,13 @@ export default class View {
   }
 
   renderSpinner() {
-    const markup = `
-        <div class="spinner">
-                <svg>
-                  <use href="${icons}#icon-loader"></use>
-                </svg>
-              </div>
-        `;
+    const markup = html`
+      <div class="spinner">
+        <svg>
+          <use href="${icons}#icon-loader"></use>
+        </svg>
+      </div>
+    `;
     this.#clear();
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   }
@@ -72,31 +73,31 @@ export default class View {
   renderError(errorMsg = this.#errorMsg) {
     console.error(errorMsg);
     errorMsg ||= this.#errorMsg;
-    const markup = `
-        <div class="error">
-              <div>
-                <svg>
-                  <use href="${icons}#icon-alert-triangle"></use>
-                </svg>
-              </div>
-              <p>${errorMsg}</p>
-            </div>
-        `;
+    const markup = html`
+      <div class="error">
+        <div>
+          <svg>
+            <use href="${icons}#icon-alert-triangle"></use>
+          </svg>
+        </div>
+        <p>${errorMsg}</p>
+      </div>
+    `;
     this.#clear();
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
   renderMsg(message = this.#message) {
-    const markup = `
-        <div class="message">
-              <div>
-                <svg>
-                  <use href="${icons}#icon-smile"></use>
-                </svg>
-              </div>
-              <p>${message}</p>
-            </div>
-        `;
+    const markup = html`
+      <div class="message">
+        <div>
+          <svg>
+            <use href="${icons}#icon-smile"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+    `;
     this.#clear();
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   }
