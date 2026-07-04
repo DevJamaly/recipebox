@@ -1,6 +1,6 @@
 import { TIMEOUT_SEC } from './config';
 
-export const getJson = async function (url) {
+/* export const getJson = async function (url) {
   try {
     const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
     const data = await res.json();
@@ -26,6 +26,28 @@ export const sendJson = async function (url, uploadData) {
     console.log(res, data);
     if (!res.ok) throw new Error(`${data.message} (${res.status})`);
     // if (!res.ok) throw new Error(`${res.status}`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}; */
+
+export const AJAX = async function (url, uploadData = undefined) {
+  try {
+    const fetchReq = uploadData
+      ? fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(uploadData),
+        })
+      : fetch(url);
+
+    const res = await Promise.race([fetchReq, timeout(TIMEOUT_SEC)]);
+    const data = await res.json();
+    console.log(res, data);
+    if (!res.ok) throw new Error(`${res.status}`);
     return data;
   } catch (error) {
     throw error;

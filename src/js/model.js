@@ -1,5 +1,5 @@
 import { API_URL, KEY } from './config';
-import { getJson, sendJson } from './helpers';
+import { AJAX } from './helpers';
 import { RESULTS_PER_PAGE } from './config';
 
 export const state = {
@@ -31,8 +31,8 @@ const createRecipeObject = function (data) {
 
 export const loadRecipe = async function (id) {
   try {
-    const data = await getJson(
-      `${API_URL /* + 'YOLO' */}/${id /* + 'zzzz' */}`,
+    const data = await AJAX(
+      `${API_URL /* + 'YOLO' */}/${id /* + 'zzzz' */}?key=${KEY}`,
     );
     state.recipe = createRecipeObject(data);
   } catch (error) {
@@ -56,8 +56,8 @@ export const loadRecipe = async function (id) {
 
 export const loadSearchResults = async function (query) {
   try {
-    const data = await getJson(
-      `${API_URL}?search=${query}` /* &key=<insert your key> */,
+    const data = await AJAX(
+      `${API_URL}?search=${query}&key=${KEY}` /* &key=<insert your key> */,
     );
     state.search.query = query;
     state.search.results = data.data.recipes.map(recipe => {
@@ -70,6 +70,7 @@ export const loadSearchResults = async function (query) {
         servings: recipe.servings,
         cookingTime: recipe.cooking_time,
         ingredients: recipe.ingredients,
+        ...(recipe.key && { key: recipe.key }),
       };
     });
     state.search.page = 1;
@@ -138,7 +139,10 @@ export const uploadRecipe = async function (newRecipe) {
     const ingredients = Object.entries(newRecipe)
       .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
       .map(([_, ingredient]) => {
-        const ingredientsArr = ingredient.trim().replaceAll(' ', '').split(',');
+        const ingredientsArr = ingredient
+          .trim()
+          .split(',')
+          .map(el => el.trim());
         if (ingredientsArr.length !== 3)
           throw new Error(
             `Wrong ingredient format! Please use the correct format :)`,
@@ -159,7 +163,7 @@ export const uploadRecipe = async function (newRecipe) {
     };
     console.log(recipe);
 
-    const data = await sendJson(`${API_URL}?key=${KEY}`, recipe);
+    const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
     state.recipe = createRecipeObject(data);
     addBookmark(state.recipe);
   } catch (error) {
