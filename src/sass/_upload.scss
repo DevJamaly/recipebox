@@ -51,6 +51,14 @@
   grid-template-columns: 1fr 1fr;
   gap: 4rem 6rem;
 
+  .message,
+  .error {
+    grid-column: 1 / -1;
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+  }
+
   &__column {
     display: grid;
     grid-template-columns: 1fr 2.8fr;
