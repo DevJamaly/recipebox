@@ -16,6 +16,23 @@ class BookmarksView extends View {
     window.addEventListener('load', handler);
   }
 
+  addDeleteBookmarkHandler(handler) {
+    this.parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.preview__btn--delete');
+      if (!btn) return;
+      handler(btn.dataset.id);
+    });
+  }
+
+  addDeleteAllBookmarkHandler(handler) {
+    this.parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--clear-bookmarks');
+      if (!btn) return;
+      console.log(btn);
+      console.log(handler);
+      handler();
+    });
+  }
   _generateMarkup() {
     return html`
       <ul class="bookmarks__list">
@@ -38,7 +55,7 @@ class BookmarksView extends View {
         return html`
           <li class="preview">
             ${getMarkup(bookmark)}
-            <button class="preview__btn--delete" data-id="123">
+            <button class="preview__btn--delete" data-id="${bookmark.id}">
               <svg>
                 <use href="${icons}#icon-trash"></use>
               </svg>

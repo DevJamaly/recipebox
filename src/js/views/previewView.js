@@ -3,7 +3,6 @@ import icons from 'url:../../img/icons.svg';
 
 export const getMarkup = function (recipe) {
   const id = window.location.hash.slice(1); //Check the URL for the ID
-  console.log(`Getting Markup: ${id} | ${recipe.id}`);
   return html`
     <a
       class="preview__link ${recipe.id === id ? 'preview__link--active' : ''}"

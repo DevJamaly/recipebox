@@ -25,6 +25,8 @@ const init = function () {
   recipeView.addUpdateServingsHandler(controlServings);
   recipeView.addUpdateBookmarkHandler(controlAddBookmark);
   addRecipeView.addUploadHandler(controlAddRecipe);
+  bookmarksView.addDeleteBookmarkHandler(controlDeleteBookmark);
+  bookmarksView.addDeleteAllBookmarkHandler(controlDeleteAllBookmarks);
 };
 
 const controlRecipes = async function () {
@@ -111,6 +113,28 @@ const controlAddBookmark = function () {
   } catch (error) {
     recipeView.renderError(error.message);
   }
+};
+
+const controlDeleteBookmark = function (id) {
+  // 1) Remove bookmark
+  model.deleteBookmark(id);
+
+  // 2) Update recipe view
+  recipeView.render(model.state.recipe);
+
+  // 3) Update bookmarks
+  bookmarksView.render(model.state.bookmarks);
+};
+
+const controlDeleteAllBookmarks = function () {
+  // 1) Remove bookmark
+  model.deleteAllBookmarks();
+
+  // 2) Update recipe view
+  recipeView.render(model.state.recipe);
+
+  // 3) Update bookmarks
+  bookmarksView.render(model.state.bookmarks);
 };
 
 const controlBookmarks = function () {

@@ -133,6 +133,15 @@ export const deleteBookmark = function (id) {
   saveBookmarks();
 };
 
+export const deleteAllBookmarks = function () {
+  //delete all recipes from the bookmarked array
+  state.bookmarks = [];
+  //Mark current recipe as NOT bookmark
+  state.recipe.bookmarked = false;
+
+  clearBookmarks();
+};
+
 export const uploadRecipe = async function (newRecipe) {
   try {
     console.log(newRecipe);
