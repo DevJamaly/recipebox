@@ -6,7 +6,7 @@ import icons from 'url:../../img/icons.svg';
 class BookmarksView extends View {
   constructor() {
     super(
-      document.querySelector('.bookmarks__list'),
+      document.querySelector('.bookmarks'),
       `No bookmarks yet. Find a nice recipe and bookmark it :)`,
       `No bookmarks yet. Find a nice recipe and bookmark it :)`,
     );
@@ -17,6 +17,22 @@ class BookmarksView extends View {
   }
 
   _generateMarkup() {
+    return html`
+      <ul class="bookmarks__list">
+        ${this.#generateBookmarksList()}
+      </ul>
+      <div class="bookmarks__clear">
+        <button class="btn--clear-bookmarks">
+          <svg>
+            <use href="${icons}#icon-trash"></use>
+          </svg>
+          Clear all
+        </button>
+      </div>
+    `;
+  }
+
+  #generateBookmarksList() {
     return this.data
       .map(bookmark => {
         return html`
