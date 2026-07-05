@@ -103,7 +103,7 @@ export default class View {
     errorMsg ||= this.#errorMsg;
     const markup = html`
       <div class="error">
-        <div>
+        <div style="align-self:center">
           <svg>
             <use href="${icons}#icon-alert-triangle"></use>
           </svg>
