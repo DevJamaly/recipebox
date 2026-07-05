@@ -144,33 +144,23 @@ export const deleteAllBookmarks = function () {
 
 export const uploadRecipe = async function (newRecipe) {
   try {
-    console.log(newRecipe);
-    const ingredients = Object.entries(newRecipe)
-      .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
-      .map(([_, ingredient]) => {
-        const ingredientsArr = ingredient
-          .trim()
-          .split(',')
-          .map(el => el.trim());
-        if (ingredientsArr.length !== 3)
-          throw new Error(
-            `Wrong ingredient format! Please use the correct format :)`,
-          );
-        const [quantity, unit, description] = ingredientsArr;
-        console.log(quantity, unit, description);
-        return { quantity: quantity ? +quantity : null, unit, description };
-      });
+    const prepHours = isFinite(+newRecipe.prepTimeHours)
+      ? +newRecipe.prepTimeHours * 60
+      : 0;
+    const prepMins = isFinite(+newRecipe.prepTimeMinutes)
+      ? +newRecipe.prepTimeMinutes
+      : 0;
 
     const recipe = {
       title: newRecipe.title,
       source_url: newRecipe.sourceUrl,
       image_url: newRecipe.image,
       publisher: newRecipe.publisher,
-      cooking_time: +newRecipe.cookingTime,
+      cooking_time: prepHours + prepMins,
       servings: +newRecipe.servings,
-      ingredients,
+      ingredients: newRecipe.ingredients,
     };
-    console.log(recipe);
+    // console.log(recipe);
 
     const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
     state.recipe = createRecipeObject(data);

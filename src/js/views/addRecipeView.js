@@ -1,4 +1,5 @@
 import View from './View';
+import { html } from '../helpers';
 import icons from 'url:../../img/icons.svg';
 
 class AddRecipeView extends View {
@@ -22,13 +23,13 @@ class AddRecipeView extends View {
 
   toggleWindow() {
     const isOpen = !this.#window.classList.contains('hidden');
-    if (isOpen) this.#resetForm();
+    // if (isOpen) this.#resetForm();
     this.#overlay.classList.toggle('hidden');
     this.#window.classList.toggle('hidden');
   }
 
   #resetForm() {
-    this.parentElement.innerHTML = this.#formMarkup;
+    // this.parentElement.innerHTML = this.#formMarkup;
   }
 
   #addHandlerAddIngredient() {
@@ -59,10 +60,20 @@ class AddRecipeView extends View {
   addUploadHandler(handler) {
     this.parentElement.addEventListener('submit', e => {
       e.preventDefault();
-      this.renderError();
       if (!this.#validate()) return;
       const dataArr = [...new FormData(this.parentElement)];
       const data = Object.fromEntries(dataArr);
+      data.ingredients = [
+        ...this.parentElement.querySelectorAll('.ingredient-row'),
+      ].map(row => {
+        return {
+          quantity: row.querySelector('.ingredient__qty').value.trim(),
+          unit: row.querySelector('.ingredient__unit').value.trim(),
+          description: row
+            .querySelector('.ingredient__description')
+            .value.trim(),
+        };
+      });
       handler(data);
     });
   }
@@ -73,7 +84,7 @@ class AddRecipeView extends View {
         <input
           type="number"
           step="any"
-          min="0"
+          min="1"
           class="ingredient__qty"
           placeholder="Qty"
         />
