@@ -6,6 +6,8 @@ class AddRecipeView extends View {
   #overlay = document.querySelector('.overlay');
   #btnOpen = document.querySelector('.nav__btn--add-recipe');
   #btnClose = document.querySelector('.btn--close-modal');
+  #ingredientsList = document.querySelector('.ingredients-list');
+  #btnAddIngredient = document.querySelector('.btn--add-ingredient');
 
   constructor() {
     super(
@@ -15,6 +17,8 @@ class AddRecipeView extends View {
     );
     this.addShowWindowHandler();
     this.addHideWindowHandler();
+    this.#addHandlerAddIngredient();
+    this.#addHandlerDeleteIngredient();
   }
 
   toggleWindow() {
@@ -36,7 +40,28 @@ class AddRecipeView extends View {
       e.preventDefault();
       const dataArr = [...new FormData(this)];
       const data = Object.fromEntries(dataArr);
-      handler(data);
+      console.log(dataArr, data);
+      // handler(data);
+    });
+  }
+
+  #addHandlerAddIngredient() {
+    this.#btnAddIngredient.addEventListener('click', () => {
+      const firstRow = this.#ingredientsList.querySelector('.ingredient-row');
+      const newRow = firstRow.cloneNode(true);
+      newRow.querySelectorAll('input').forEach(input => {
+        input.value = '';
+        input.classList.remove('input-error');
+      });
+      this.#ingredientsList.insertAdjacentElement('beforeend', newRow);
+    });
+  }
+
+  #addHandlerDeleteIngredient() {
+    this.#ingredientsList.addEventListener('click', e => {
+      const deleteBtn = e.target.closest('.ingredient__delete');
+      if (!deleteBtn) return;
+      deleteBtn.closest('.ingredient-row').remove();
     });
   }
 
