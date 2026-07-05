@@ -38,7 +38,7 @@ const controlRecipes = async function () {
     //0.5) Update results view to mark selected search result
     if (model?.state?.search?.query)
       resultsView.render(model.getSearchResultsPage());
-    // bookmarksView.update(model.state.bookmarks);
+    bookmarksView.render(model.state.bookmarks);
 
     // 1) Loading Recipe
     await model.loadRecipe(id);

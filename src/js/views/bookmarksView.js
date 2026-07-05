@@ -1,5 +1,6 @@
 import View from './View';
-import PreviewView from './previewView';
+import { getMarkup } from './previewView';
+import { html } from '../helpers';
 import icons from 'url:../../img/icons.svg';
 
 class BookmarksView extends View {
@@ -16,7 +17,20 @@ class BookmarksView extends View {
   }
 
   _generateMarkup() {
-    return this.data.map(bookmark => PreviewView.getMarkup(bookmark)).join('');
+    return this.data
+      .map(bookmark => {
+        return html`
+          <li class="preview">
+            ${getMarkup(bookmark)}
+            <button class="preview__btn--delete" data-id="123">
+              <svg>
+                <use href="${icons}#icon-trash"></use>
+              </svg>
+            </button>
+          </li>
+        `;
+      })
+      .join('');
   }
 }
 

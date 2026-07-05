@@ -102,4 +102,45 @@
       fill: $color-primary;
     }
   }
+
+  position: relative;
+  display: flex;
+  align-items: stretch;
+
+  &__link {
+    flex: 1;
+    min-width: 0; // lets the ellipsis truncation still work inside a flex item
+  }
+
+  &__btn--delete {
+    flex: 0 0 0.6rem; // thin red sliver at rest
+    align-self: stretch;
+    margin: 0.4rem 0; // fixed inset top & bottom
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: darken($color-error, 8%);
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    transition: flex-basis 0.2s ease;
+
+    svg {
+      height: 1.8rem;
+      width: 1.8rem;
+      fill: #fff;
+      flex-shrink: 0;
+      opacity: 0;
+      transition: opacity 0.15s ease 0.05s;
+    }
+
+    &:hover {
+      // background-color: $color-error;
+      flex-basis: 5.5rem; // expands only when THIS is hovered
+
+      svg {
+        opacity: 1;
+      }
+    }
+  }
 }

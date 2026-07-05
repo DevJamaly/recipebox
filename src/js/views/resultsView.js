@@ -1,5 +1,6 @@
 import View from './View';
-import PreviewView from './previewView';
+import { html } from '../helpers';
+import { getMarkup } from './previewView';
 import icons from 'url:../../img/icons.svg';
 
 class ResultsView extends View {
@@ -12,7 +13,11 @@ class ResultsView extends View {
   }
 
   _generateMarkup() {
-    return this.data.map(result => PreviewView.getMarkup(result)).join('');
+    return this.data
+      .map(result => {
+        return html` <li class="preview">${getMarkup(result)}</li> `;
+      })
+      .join('');
   }
 }
 
