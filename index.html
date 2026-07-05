@@ -277,76 +277,57 @@
       </div>
     </div>
 
-    <div class="overlay hidden"></div>
-    <div class="add-recipe-window hidden">
+    <div class="overlay"></div>
+    <div class="add-recipe-window">
       <button class="btn--close-modal">&times;</button>
       <form class="upload">
-        <div class="upload__column">
-          <h3 class="upload__heading">Recipe data</h3>
-          <label>Title</label>
-          <input value="TESTData" required name="title" type="text" />
-          <label>URL</label>
-          <input value="TESTData" required name="sourceUrl" type="text" />
-          <label>Image URL</label>
-          <input value="TESTData" required name="image" type="text" />
-          <label>Publisher</label>
-          <input value="TESTData" required name="publisher" type="text" />
-          <label>Prep time</label>
-          <input value="23" required name="cookingTime" type="number" />
-          <label>Servings</label>
-          <input value="23" required name="servings" type="number" />
-        </div>
+       <div class="upload__column">
+  <h3 class="upload__heading">Recipe data</h3>
+  <label>Title</label>
+  <input name="title" type="text" />
+  <label>URL</label>
+  <input name="sourceUrl" type="text" />
+  <label>Image URL</label>
+  <input name="image" type="text" />
+  <label>Publisher</label>
+  <input name="publisher" type="text" />
 
-        <div class="upload__column">
-          <h3 class="upload__heading">Ingredients</h3>
-          <label>Ingredient 1</label>
-          <input
-            value="0.5,kg,Rice"
-            type="text"
-            required
-            name="ingredient-1"
-            placeholder="Format: 'Quantity,Unit,Description'"
-          />
-          <label>Ingredient 2</label>
-          <input
-            value="1,,Avocado"
-            type="text"
-            name="ingredient-2"
-            placeholder="Format: 'Quantity,Unit,Description'"
-          />
-          <label>Ingredient 3</label>
-          <input
-            value=",,salt"
-            type="text"
-            name="ingredient-3"
-            placeholder="Format: 'Quantity,Unit,Description'"
-          />
-          <label>Ingredient 4</label>
-          <input
-            type="text"
-            name="ingredient-4"
-            placeholder="Format: 'Quantity,Unit,Description'"
-          />
-          <label>Ingredient 5</label>
-          <input
-            type="text"
-            name="ingredient-5"
-            placeholder="Format: 'Quantity,Unit,Description'"
-          />
-          <label>Ingredient 6</label>
-          <input
-            type="text"
-            name="ingredient-6"
-            placeholder="Format: 'Quantity,Unit,Description'"
-          />
-        </div>
+  <label>Prep time</label>
+  <div class="upload__time-group">
+    <input type="number" name="prepTimeHours" placeholder="hrs" min="0" />
+    <span class="upload__time-sep">:</span>
+    <input type="number" name="prepTimeMinutes" placeholder="min" min="0" />
+  </div>
 
-        <button class="btn upload__btn">
-          <svg>
-            <use href="src/img/icons.svg#icon-upload-cloud"></use>
-          </svg>
-          <span>Upload</span>
-        </button>
+  <label>Servings</label>
+  <input type="number" name="servings" min="1" />
+</div>
+
+<div class="upload__column">
+  <h3 class="upload__heading">Ingredients</h3>
+
+  <ul class="ingredients-list">
+      <li class="ingredient-row">
+        <input type="number" step="any" min="0" class="ingredient__qty" placeholder="Qty" />
+        <input type="text" class="ingredient__unit" placeholder="Unit" />
+        <input type="text" class="ingredient__description" placeholder="Description" />
+        <div class="ingredient__delete" role="button" aria-label="Remove ingredient">
+          <svg class="ingredient__delete-icon"><use href="src/img/icons.svg#icon-trash"></use></svg>
+        </div>
+      </li>      
+    </ul>
+    <button type="button" class="btn--add-ingredient">
+      <svg><use href="src/img/icons.svg#icon-plus"></use></svg>
+      Add ingredient
+    </button>
+  </div>
+
+<p class="upload__error">Title must be between 3 and 150 characters.</p>
+
+  <button class="btn upload__btn">
+    <svg><use href="src/img/icons.svg#icon-upload-cloud"></use></svg>
+    <span>Upload</span>
+  </button>
       </form>
     </div>
   </body>
