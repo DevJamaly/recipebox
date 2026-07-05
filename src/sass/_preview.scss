@@ -1,5 +1,14 @@
+@use 'base' as *;
+
 .preview {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+
   &__link {
+    flex: 1;
+    min-width: 0; // lets the ellipsis truncation still work inside a flex item
+
     &:link,
     &:visited {
       display: flex;
@@ -84,7 +93,7 @@
   }
 
   &__user-generated {
-    background-color: darken($color-grey-light-2, 2%);
+    background-color: $color-grey-light-2;
 
     display: flex;
     align-items: center;
@@ -103,15 +112,6 @@
     }
   }
 
-  position: relative;
-  display: flex;
-  align-items: stretch;
-
-  &__link {
-    flex: 1;
-    min-width: 0; // lets the ellipsis truncation still work inside a flex item
-  }
-
   &__btn--delete {
     flex: 0 0 0.8rem; // thin red sliver at rest
     align-self: stretch;
@@ -119,7 +119,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: darken($color-error, 8%);
+    background-color: $color-error-dark;
     border: none;
     cursor: pointer;
     overflow: hidden;
@@ -135,7 +135,6 @@
     }
 
     &:hover {
-      // background-color: $color-error;
       flex-basis: 5.5rem; // expands only when THIS is hovered
 
       svg {

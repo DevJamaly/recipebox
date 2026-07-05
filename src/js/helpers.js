@@ -1,57 +1,27 @@
-import { TIMEOUT_SEC } from './config';
+import { TIMEOUT_SEC } from './config.js';
 
-/* export const getJson = async function (url) {
-  try {
-    const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
-    const data = await res.json();
-    // if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-    if (!res.ok) throw new Error(`${res.status}`);
-    return data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const sendJson = async function (url, uploadData) {
-  try {
-    const postReq = fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(uploadData),
-    });
-    const res = await Promise.race([postReq, timeout(TIMEOUT_SEC)]);
-    const data = await res.json();
-    console.log(res, data);
-    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-    // if (!res.ok) throw new Error(`${res.status}`);
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}; */
-
+/**
+ * Sends a GET or POST request (POST when `uploadData` is provided) and
+ * races it against a timeout so a hung request can't stall the UI forever.
+ * @param {string} url
+ * @param {Object} [uploadData] - JSON body to POST; omit for a GET request
+ * @returns {Promise<Object>} parsed JSON response
+ */
 export const AJAX = async function (url, uploadData = undefined) {
-  try {
-    const fetchReq = uploadData
-      ? fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(uploadData),
-        })
-      : fetch(url);
+  const fetchReq = uploadData
+    ? fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(uploadData),
+      })
+    : fetch(url);
 
-    const res = await Promise.race([fetchReq, timeout(TIMEOUT_SEC)]);
-    const data = await res.json();
-    console.log(res, data);
-    if (!res.ok) throw new Error(`${res.status}`);
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  const res = await Promise.race([fetchReq, timeout(TIMEOUT_SEC)]);
+  const data = await res.json();
+  if (!res.ok) throw new Error(`${res.status}`);
+  return data;
 };
 
 const timeout = function (sec) {
@@ -62,6 +32,10 @@ const timeout = function (sec) {
   });
 };
 
-// helpers.js
+/**
+ * Tag function for template literals. It's a pure runtime no-op (just
+ * reassembles the string) — its only purpose is letting Prettier and the
+ * es6-string-html extension recognize and format the contents as HTML.
+ */
 export const html = (strings, ...values) =>
   strings.reduce((acc, str, i) => acc + str + (values[i] ?? ''), '');

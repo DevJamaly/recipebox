@@ -1,6 +1,6 @@
-import View from './View';
-import { getMarkup } from './previewView';
-import { html } from '../helpers';
+import View from './View.js';
+import { getMarkup } from './previewView.js';
+import { html } from '../helpers.js';
 import icons from 'url:../../img/icons.svg';
 
 class BookmarksView extends View {
@@ -12,11 +12,11 @@ class BookmarksView extends View {
     );
   }
 
-  addRenderHandler(handler) {
+  addHandlerRender(handler) {
     window.addEventListener('load', handler);
   }
 
-  addDeleteBookmarkHandler(handler) {
+  addHandlerBookmarkDelete(handler) {
     this.parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.preview__btn--delete');
       if (!btn) return;
@@ -24,15 +24,14 @@ class BookmarksView extends View {
     });
   }
 
-  addDeleteAllBookmarkHandler(handler) {
+  addHandlerBookmarksClear(handler) {
     this.parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--clear-bookmarks');
       if (!btn) return;
-      console.log(btn);
-      console.log(handler);
       handler();
     });
   }
+
   _generateMarkup() {
     return html`
       <ul class="bookmarks__list">
@@ -51,8 +50,8 @@ class BookmarksView extends View {
 
   #generateBookmarksList() {
     return this.data
-      .map(bookmark => {
-        return html`
+      .map(
+        bookmark => html`
           <li class="preview">
             ${getMarkup(bookmark)}
             <button class="preview__btn--delete" data-id="${bookmark.id}">
@@ -61,8 +60,8 @@ class BookmarksView extends View {
               </svg>
             </button>
           </li>
-        `;
-      })
+        `,
+      )
       .join('');
   }
 }

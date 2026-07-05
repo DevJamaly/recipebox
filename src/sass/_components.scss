@@ -1,3 +1,5 @@
+@use 'base' as *;
+
 %btn {
   background-image: $gradient;
   border-radius: 10rem;
@@ -97,7 +99,6 @@
   cursor: pointer;
   height: 4.5rem;
   width: 4.5rem;
-  // margin-left: auto;
   transition: all 0.2s;
 
   display: flex;
@@ -159,7 +160,6 @@
   text-transform: uppercase;
   margin-bottom: 2.5rem;
   text-align: center;
-  // transform: skewY(-3deg);
 }
 
 .link:link,
@@ -191,18 +191,17 @@
 
 .message,
 .error {
-  // max-width: 40rem;
   max-width: 75%;
   margin: 0 auto;
   padding: 5rem 4rem;
 
   display: flex;
+  align-items: center; // vertically centers the icon next to the message text
 
   svg {
     height: 3rem;
     width: 3rem;
     fill: $color-primary;
-    // fill: $color-error;
     transform: translateY(-0.3rem);
   }
 

@@ -1,3 +1,5 @@
+@use 'base' as *;
+
 .add-recipe-window {
   position: fixed;
   top: 50%;
@@ -90,7 +92,7 @@
       }
 
       &.input-error {
-        border-color: #e74c3c;
+        border-color: $color-error-dark;
         background-color: #fdeeee;
       }
     }
@@ -155,7 +157,7 @@
 
       .ingredient__delete {
         flex: 0 0 0.6rem;
-        background-color: #e74c3c;
+        background-color: $color-error-dark;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -227,7 +229,7 @@
 
   &__error {
     grid-column: 1 / -1;
-    color: #e74c3c;
+    color: $color-error-dark;
     font-size: 1.4rem;
     font-weight: 600;
     text-align: center;

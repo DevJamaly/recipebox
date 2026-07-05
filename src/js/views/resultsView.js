@@ -1,7 +1,6 @@
-import View from './View';
-import { html } from '../helpers';
-import { getMarkup } from './previewView';
-import icons from 'url:../../img/icons.svg';
+import View from './View.js';
+import { html } from '../helpers.js';
+import { getMarkup } from './previewView.js';
 
 class ResultsView extends View {
   constructor() {
@@ -14,9 +13,7 @@ class ResultsView extends View {
 
   _generateMarkup() {
     return this.data
-      .map(result => {
-        return html` <li class="preview">${getMarkup(result)}</li> `;
-      })
+      .map(result => html`<li class="preview">${getMarkup(result)}</li>`)
       .join('');
   }
 }

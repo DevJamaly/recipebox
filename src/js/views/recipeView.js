@@ -12,22 +12,21 @@ class RecipeView extends View {
     );
   }
 
-  addRenderHandler(handler) {
+  addHandlerRender(handler) {
     ['hashchange', 'load'].forEach(eventType =>
       window.addEventListener(eventType, handler),
     );
   }
 
-  addUpdateBookmarkHandler(handler) {
+  addHandlerBookmarkToggle(handler) {
     this.parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--bookmark');
       if (!btn) return;
-      console.log(btn);
       handler();
     });
   }
 
-  addUpdateServingsHandler(handler) {
+  addHandlerServingsUpdate(handler) {
     this.parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--update-servings');
       if (!btn) return;
@@ -94,7 +93,7 @@ class RecipeView extends View {
           </svg>
         </div>
         <button class="btn--round btn--bookmark">
-          <svg class="">
+          <svg>
             <use
               href="${icons}#icon-bookmark${this.data.bookmarked
                 ? '-fill'
@@ -117,8 +116,8 @@ class RecipeView extends View {
         <h2 class="heading--2">How to cook it</h2>
         <p class="recipe__directions-text">
           This recipe was carefully designed and tested by
-          <span class="recipe__publisher">${this.data.publisher}</span>. Please
-          check out directions at their website.
+          <span class="recipe__publisher">${this.data.publisher}</span>.
+          Please check out directions at their website.
         </p>
         <a
           class="btn--small recipe__btn"

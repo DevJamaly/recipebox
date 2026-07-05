@@ -1,8 +1,14 @@
-import { html } from '../helpers';
+import { html } from '../helpers.js';
 import icons from 'url:../../img/icons.svg';
 
+/**
+ * Shared markup for a single recipe preview card, used by both the
+ * search results list and the bookmarks list.
+ * @param {Object} recipe
+ * @returns {string}
+ */
 export const getMarkup = function (recipe) {
-  const id = window.location.hash.slice(1); //Check the URL for the ID
+  const id = window.location.hash.slice(1); // Check the URL for the ID
   return html`
     <a
       class="preview__link ${recipe.id === id ? 'preview__link--active' : ''}"

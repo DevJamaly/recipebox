@@ -1,5 +1,5 @@
-import View from './View';
-import { html } from '../helpers';
+import View from './View.js';
+import { html } from '../helpers.js';
 import icons from 'url:../../img/icons.svg';
 
 class PaginationView extends View {
@@ -7,7 +7,7 @@ class PaginationView extends View {
     super(document.querySelector('.pagination'));
   }
 
-  addPagesClickHandler(handler) {
+  addHandlerPageClick(handler) {
     this.parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--inline');
       if (!btn) return;
@@ -22,7 +22,7 @@ class PaginationView extends View {
       this.data.results.length / this.data.resultsPerPage,
     );
 
-    //When to show previous button ?
+    // When to show the previous/next buttons
     const prev = currPage !== 1 && numPages > 1;
     const next = numPages > 1 && currPage !== numPages;
 

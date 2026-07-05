@@ -1,24 +1,19 @@
-// $color-primary: #f38e82;
-// $color-grad-1: #fbdb89;
-// $color-grad-2: #f48982;
-
+// Brand colors
 $color-primary: #14a8a4;
 $color-grad-1: #028cf3;
 $color-grad-2: #2feaa8;
-
-// $color-primary: #14a8a4;
-// $color-grad-1: #0e8fb8;
-// $color-grad-2: #56e0c8;
 
 $color-grey-light-1: #f9f5f3; // Light background
 $color-grey-light-2: #f2efee; // Light lines
 $color-grey-light-3: #d3c7c3; // Light text (placeholder)
 $color-grey-dark-1: #615551; // Normal text
 $color-grey-dark-2: #918581; // Lighter text
-$color-error: #d90606; //Color to showcase errors
+$color-error: #d90606; // Base Color to showcase errors
+$color-error-dark: #b10505; // Darker errors color
 
 $gradient: linear-gradient(to right bottom, $color-grad-1, $color-grad-2);
 
+// Breakpoints
 $bp-large: 78.15em; // 1250px
 $bp-medium: 61.25em; // 980px
 $bp-small: 37.5em; // 600px

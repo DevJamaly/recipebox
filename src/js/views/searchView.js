@@ -1,9 +1,6 @@
 class SearchView {
   #parentElement = document.querySelector('.search');
   #searchField = this.#parentElement.querySelector('.search__field');
-  #data;
-  #errorMsg = `No recipes found for your query. Please try again!`;
-  #message = `Start by searching for a recipe or an ingredient. Have fun!`;
 
   getQuery() {
     const query = this.#searchField.value;
@@ -11,7 +8,7 @@ class SearchView {
     return query;
   }
 
-  addSearchHandler(handler) {
+  addHandlerSearch(handler) {
     this.#parentElement.addEventListener('submit', e => {
       e.preventDefault();
       handler();

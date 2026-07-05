@@ -1,5 +1,5 @@
-import View from './View';
-import { html } from '../helpers';
+import View from './View.js';
+import { html } from '../helpers.js';
 import icons from 'url:../../img/icons.svg';
 
 class AddRecipeView extends View {
@@ -13,23 +13,24 @@ class AddRecipeView extends View {
     super(
       document.querySelector('.upload'),
       `There was an error uploading your recipe !`,
-      `Recipe was sucessfully uploaded :)`,
+      `Recipe was successfully uploaded :)`,
     );
-    this.addShowWindowHandler();
-    this.addHideWindowHandler();
+    this.#bindModalOpen();
+    this.#bindModalClose();
     this.#addHandlerAddIngredient();
     this.#addHandlerDeleteIngredient();
   }
 
   toggleWindow() {
     const isOpen = !this.#window.classList.contains('hidden');
-    // if (isOpen) this.#resetForm();
+    if (isOpen) this.#resetForm();
     this.#overlay.classList.toggle('hidden');
     this.#window.classList.toggle('hidden');
   }
 
+  // Restores the form to its pristine, empty markup after closing.
   #resetForm() {
-    // this.parentElement.innerHTML = this.#formMarkup;
+    this.parentElement.innerHTML = this.#formMarkup;
   }
 
   #addHandlerAddIngredient() {
@@ -48,16 +49,16 @@ class AddRecipeView extends View {
     });
   }
 
-  addShowWindowHandler() {
+  #bindModalOpen() {
     this.#btnOpen.addEventListener('click', this.toggleWindow.bind(this));
   }
 
-  addHideWindowHandler() {
+  #bindModalClose() {
     this.#btnClose.addEventListener('click', this.toggleWindow.bind(this));
     this.#overlay.addEventListener('click', this.toggleWindow.bind(this));
   }
 
-  addUploadHandler(handler) {
+  addHandlerUpload(handler) {
     this.parentElement.addEventListener('submit', e => {
       e.preventDefault();
       if (!this.#validate()) return;
@@ -100,7 +101,7 @@ class AddRecipeView extends View {
           aria-label="Remove ingredient"
         >
           <svg class="ingredient__delete-icon">
-            <use href="${icons}#icon-trash-2"></use>
+            <use href="${icons}#icon-trash"></use>
           </svg>
         </div>
       </li>
@@ -138,7 +139,7 @@ class AddRecipeView extends View {
     checkLength(form.querySelector('[name="publisher"]'), 2, 100, 'Publisher');
     checkNumber(form.querySelector('[name="servings"]'), 'Servings');
 
-    // prep time: at least one filled, both numeric if present
+    // Prep time: at least one of hours/minutes filled, both numeric if present
     const hoursInput = form.querySelector('[name="prepTimeHours"]');
     const minsInput = form.querySelector('[name="prepTimeMinutes"]');
     const bothEmpty =
@@ -153,7 +154,6 @@ class AddRecipeView extends View {
       checkNumber(minsInput, 'Prep time', false);
     }
 
-    // ingredients
     const rows = [...form.querySelectorAll('.ingredient-row')];
     if (rows.length === 0) errors.add('Add at least one ingredient.');
 
@@ -180,6 +180,8 @@ class AddRecipeView extends View {
           : `Please fix the ${errors.size} highlighted fields.`;
   }
 
+  // Required by the base View class's contract, but AddRecipeView never
+  // calls render() — the upload form's markup is static HTML, not generated.
   _generateMarkup() {}
 }
 

@@ -1,3 +1,6 @@
+@use 'base' as *;
+@use 'sass:color';
+
 .recipe {
   background-color: $color-grey-light-1;
 
@@ -6,7 +9,6 @@
   &__fig {
     height: 32rem;
     position: relative;
-    // transform: scale(1.04) translateY(-1px);
     transform-origin: top;
 
     &::before {
@@ -100,7 +102,7 @@
   }
 
   &__user-generated {
-    background-color: darken($color-grey-light-2, 2%);
+    background-color: color.adjust($color-grey-light-2, $lightness: -2%);
 
     display: flex;
     align-items: center;
@@ -160,7 +162,6 @@
   // DIRECTIONS
   &__directions {
     padding: 5rem 10rem;
-    padding-bottom: 5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
