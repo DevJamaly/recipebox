@@ -1,4 +1,5 @@
 import { TIMEOUT_SEC } from './config.js';
+import { HttpError } from './errors.js';
 
 /**
  * Sends a GET or POST request (POST when `uploadData` is provided) and
@@ -19,8 +20,18 @@ export const AJAX = async function (url, uploadData = undefined) {
     : fetch(url);
 
   const res = await Promise.race([fetchReq, timeout(TIMEOUT_SEC)]);
-  const data = await res.json();
-  if (!res.ok) throw new Error(`${res.status}`);
+
+  // read the body regardless of status.
+  // If it's not valid JSON, fall back gracefully instead of throwing a confusing parse error.
+  let data = null;
+  try {
+    data = await res.json();
+  } catch {
+    data = null;
+  }
+
+  if (!res.ok) throw new HttpError(data?.message || res.statusText, res.status);
+
   return data;
 };
 

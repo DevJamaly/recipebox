@@ -1,5 +1,6 @@
 import { API_URL, KEY, RESULTS_PER_PAGE } from './config.js';
 import { AJAX } from './helpers.js';
+import { describeError } from './errors.js';
 
 export const state = {
   recipe: {},
@@ -12,8 +13,7 @@ export const state = {
   bookmarks: [],
 };
 
-const createRecipeObject = function (data) {
-  const { recipe } = data.data;
+const createRecipeObject = function (recipe) {
   return {
     id: recipe.id,
     title: recipe.title,
@@ -35,23 +35,10 @@ const createRecipeObject = function (data) {
 export const loadRecipe = async function (id) {
   try {
     const data = await AJAX(`${API_URL}/${id}?key=${KEY}`);
-    state.recipe = createRecipeObject(data);
+    const { recipe } = data.data;
+    state.recipe = createRecipeObject(recipe);
   } catch (error) {
-    let errorMsg = '';
-    switch (Number.parseInt(error.message)) {
-      case 400:
-        errorMsg = `Could not find recipe! Invalid ID (${error.message})`;
-        break;
-
-      case 404:
-        errorMsg = `Could not find server! Malformed URL (${error.message})`;
-        break;
-
-      default:
-        errorMsg = undefined;
-        break;
-    }
-    throw new Error(errorMsg);
+    throw new Error(describeError(error, 'recipe'));
   }
 };
 
@@ -63,36 +50,12 @@ export const loadSearchResults = async function (query) {
   try {
     const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
     state.search.query = query;
-    state.search.results = data.data.recipes.map(recipe => {
-      return {
-        id: recipe.id,
-        title: recipe.title,
-        publisher: recipe.publisher,
-        sourceUrl: recipe.source_url,
-        imageUrl: recipe.image_url,
-        servings: recipe.servings,
-        cookingTime: recipe.cooking_time,
-        ingredients: recipe.ingredients,
-        ...(recipe.key && { key: recipe.key }),
-      };
-    });
+    state.search.results = data.data.recipes.map(recipe =>
+      createRecipeObject(recipe),
+    );
     state.search.page = 1;
   } catch (error) {
-    let errorMsg = '';
-    switch (Number.parseInt(error.message)) {
-      case 400:
-        errorMsg = `Could not find recipe! Invalid ID (${error.message})`;
-        break;
-
-      case 404:
-        errorMsg = `Could not find server! Malformed URL (${error.message})`;
-        break;
-
-      default:
-        errorMsg = undefined;
-        break;
-    }
-    throw new Error(errorMsg);
+    throw new Error(describeError(error, 'search results'));
   }
 };
 
@@ -101,6 +64,9 @@ export const loadSearchResults = async function (query) {
  * @param {number} [pageNum] - defaults to the current page in state
  */
 export const getSearchResultsPage = function (pageNum = state.search.page) {
+  if (!state.search.results)
+    throw new Error('No search results available yet.');
+
   state.search.page = pageNum;
   const start = (pageNum - 1) * state.search.resultsPerPage;
   const end = pageNum * state.search.resultsPerPage;
@@ -112,8 +78,8 @@ export const getSearchResultsPage = function (pageNum = state.search.page) {
  * @param {number} newServings
  */
 export const updateServings = function (newServings) {
-  if (!state?.recipe?.ingredients)
-    throw new Error('No recipe loaded in state');
+  if (!state?.recipe?.ingredients) throw new Error('No recipe loaded in state');
+  if (newServings <= 0) throw new Error('Servings must be greater than 0.');
 
   state.recipe.ingredients.forEach(ingredient => {
     ingredient.quantity =
@@ -123,28 +89,31 @@ export const updateServings = function (newServings) {
 };
 
 export const addBookmark = function (recipe) {
-  // TODO: Add a check to see if this exists in array already
-  state.bookmarks.push(recipe);
+  if (state.bookmarks.some(b => b.id === recipe.id)) return; // already bookmarked
 
+  const updated = [...state.bookmarks, recipe];
+  persistBookmarks(updated); // throws before anything is mutated if storage fails
+
+  state.bookmarks = updated;
   if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
-
-  saveBookmarks();
 };
 
 export const deleteBookmark = function (id) {
-  const index = state.bookmarks.findIndex(el => el.id === id);
-  state.bookmarks.splice(index, 1);
+  const exists = state.bookmarks.some(b => b.id === id);
+  if (!exists) throw new Error('Bookmark not found.');
 
+  const updated = state.bookmarks.filter(b => b.id !== id);
+  persistBookmarks(updated);
+
+  state.bookmarks = updated;
   if (id === state.recipe.id) state.recipe.bookmarked = false;
-
-  saveBookmarks();
 };
 
 export const deleteAllBookmarks = function () {
+  clearStoredBookmarks(); // throws before anything is mutated if storage fails
+
   state.bookmarks = [];
   state.recipe.bookmarked = false;
-
-  clearBookmarks();
 };
 
 /**
@@ -169,22 +138,40 @@ export const uploadRecipe = async function (newRecipe) {
     ingredients: newRecipe.ingredients,
   };
 
-  const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
-  state.recipe = createRecipeObject(data);
-  addBookmark(state.recipe);
+  try {
+    const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
+    state.recipe = createRecipeObject(data);
+    addBookmark(state.recipe);
+  } catch (error) {
+    throw new Error(describeError(error, 'recipe upload'));
+  }
 };
 
-const saveBookmarks = function () {
-  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+// Writes bookmarks to storage first; only throws, never mutates state itself.
+const persistBookmarks = function (bookmarks) {
+  try {
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+  } catch {
+    throw new Error('Could not save bookmarks. Storage may be full.');
+  }
+};
+
+const clearStoredBookmarks = function () {
+  try {
+    localStorage.removeItem('bookmarks');
+  } catch {
+    throw new Error('Could not clear bookmarks. Storage may be unavailable.');
+  }
 };
 
 const loadBookmarks = function () {
-  const storageData = localStorage.getItem('bookmarks');
-  if (storageData) state.bookmarks = JSON.parse(storageData);
-};
-
-const clearBookmarks = function () {
-  localStorage.clear('bookmarks');
+  try {
+    const storageData = localStorage.getItem('bookmarks');
+    if (storageData) state.bookmarks = JSON.parse(storageData);
+  } catch (error) {
+    console.error('Saved bookmarks were corrupted, starting fresh:', error);
+    state.bookmarks = [];
+  }
 };
 
 // Restore any bookmarks saved from a previous session.
